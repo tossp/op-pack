@@ -50,7 +50,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) ./files/wifi.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) ./files/wan.sh $(1)/lib/k3screenctrl/
 
-	$(INSTALL_CONFIG) ./files/config $(1)/etc/config/k3screenctrl
+	$(INSTALL_CONF) ./files/config $(1)/etc/config/k3screenctrl
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
