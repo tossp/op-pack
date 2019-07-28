@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=phicommk3-screenctrl
 PKG_VERSION:=3257090decf7de1e70ef6e7bf28d0491ffe78854
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/Hill-98/k3screenctrl.git
@@ -19,7 +19,7 @@ TARGET_CFLAGS+= -D_GNU_SOURCE
 define Package/$(PKG_NAME)
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS:=@TARGET_bcm53xx_DEVICE_phicomm-k3 +wget
+  DEPENDS:=@TARGET_bcm53xx_DEVICE_phicomm-k3 +wget +iputils-arping
   TITLE:=LCD screen controller on PHICOMM K3
   URL:=https://github.com/Hill-98/k3screenctrl
 endef
@@ -44,6 +44,7 @@ define Package/$(PKG_NAME)/install
 
 	$(INSTALL_BIN) ./files/k3screenctrl.init $(1)/etc/init.d/k3screenctrl
 	$(INSTALL_BIN) ./files/device_online.sh $(1)/lib/k3screenctrl/
+	$(INSTALL_BIN) ./files/device_custom.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) ./files/host.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) ./files/basic.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) ./files/port.sh $(1)/lib/k3screenctrl/

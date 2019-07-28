@@ -19,7 +19,8 @@ time_s=$(($curr_time - $last_time))
 for ((i=0;i<${#device_list_ip[@]};i++))
 do
 	temp_file=$temp_dir/device_speed/${device_list_ip[i]}
-	[ -s  $temp_file ] || {
+	file_size=$(cat /tmp/k3screenctrl/device_speed/192.168.9.229 2>/dev/null | grep -e "\d")
+	[ -z "${file_size}" ] && {
 		[ -z "$(iptables -nvx -L FORWARD | grep -w K3_SEREEN_U | grep -w ${device_list_ip[i]})" ] && iptables -I FORWARD 1 -s ${device_list_ip[i]} -j K3_SEREEN_U
 		[ -z "$(iptables -nvx -L FORWARD | grep -w K3_SEREEN_D | grep -w ${device_list_ip[i]})" ] && iptables -I FORWARD 1 -d ${device_list_ip[i]} -j K3_SEREEN_D
 		echo -e "0\n0" > $temp_file
@@ -34,7 +35,8 @@ device_custom_data=$(cat $temp_dir/device_custom)
 for ((i=0;i<${#device_list_ip[@]};i++))
 do
 	online_code=$(echo -e "$online_code_data" | grep ${device_list_ip[i]} | awk '{print $2}') && [ -z "$online_code" ] && online_code=0
-	[ "$online_code" != "0" ] && continue
+	online_code=$(echo $online_code | awk '{sum += $1};END {print sum}')
+	[ $online_code -ne 0 ] && continue
 	hostmac=${device_list_mac[i]//:/}
 	temp_file=$temp_dir/device_speed/${device_list_ip[i]}
 	device_custom=($(echo -e "$device_custom_data" | grep -w -i ${device_list_mac[i]}))
@@ -45,8 +47,9 @@ do
 	last_data=($(cat $temp_file))
 	last_speed_u=${last_data[0]}
 	last_speed_d=${last_data[1]}
-	curr_speed_u=$(echo -e "$curr_speed_u_ipt" | grep -w ${device_list_ip[i]}  | awk '{print $2}')
-	curr_speed_d=$(echo -e "$curr_speed_d_ipt" | grep -w ${device_list_ip[i]}  | awk '{print $2}')
+	curr_speed_u=$(echo -e "$curr_speed_u_ipt" | grep -w ${device_list_ip[i]}  | awk '{sum += $2};END {print sum}')
+	curr_speed_d=$(echo -e "$curr_speed_d_ipt" | grep -w ${device_list_ip[i]}  | awk '{sum += $2};END {print sum}')
+
 	up=$(((${curr_speed_u} - $last_speed_u) / $time_s))
 	dp=$((($curr_speed_d - $last_speed_d) / $time_s))
 	temp_data="$name\n$dp\n$up\n${logo:=0}\n"
