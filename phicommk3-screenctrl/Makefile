@@ -41,6 +41,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/k3screenctrl/port.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/k3screenctrl/basic.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/k3screenctrl/host.sh $(1)/lib/k3screenctrl/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/k3screenctrl/device_online.sh $(1)/lib/k3screenctrl/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/k3screenctrl/oui/update_oui.sh $(1)/lib/k3screenctrl/oui/
 
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/lib/k3screenctrl/oui/oui.txt $(1)/lib/k3screenctrl/oui/
