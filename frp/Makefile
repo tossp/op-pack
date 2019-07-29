@@ -21,7 +21,7 @@ GO_PKG_BUILD_PKG:=github.com/fatedier/frp/cmd/...
 GO_PKG_LDFLAGS:=-s -w
 
 include $(INCLUDE_DIR)/package.mk
-include ../../lang/golang/golang-package.mk
+include ../../packages/lang/golang/golang-package.mk
 
 define Package/frp/template
   SECTION:=net
